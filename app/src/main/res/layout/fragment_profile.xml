@@ -1,46 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
+    android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     >
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/main.appbar"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@color/green_navi"
-        android:fitsSystemWindows="true"
-        >
-
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/main.collapsing"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginBottom="50dp"
-            app:collapsedTitleGravity="center_vertical"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <android.support.v7.widget.Toolbar
+    <android.support.v7.widget.Toolbar
                 android:id="@+id/main.toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:titleTextColor="@color/colorAccent"
-                app:titleMarginBottom="5dp"
-                app:title="SlapSell" />
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
+                app:title="Profile"
+                android:background="#ffffff"
+                android:elevation="15dp"/>
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -49,10 +25,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <android.support.design.widget.FloatingActionButton
+                android:layout_height="100dp"
+                android:layout_width="100dp"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:src="@drawable/boy"
+                android:elevation="10dp"
+                android:layout_gravity="center"
+                />
        <android.support.v7.widget.CardView
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:layout_marginTop="60dp"
            android:layout_marginLeft="20dp"
            android:layout_marginRight="20dp"
            app:cardCornerRadius="10dp">
@@ -114,6 +97,38 @@
                    android:drawablePadding="5dp"/>
            </LinearLayout>
        </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:cardCornerRadius="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="@color/green_navi">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/image_edit"
+                        android:background="#f0f0ff"
+                        android:gravity="center_vertical"
+                        android:text="  Posts" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=" Upload:5"
+                        android:textSize="20dp"
+                        android:layout_margin="10dp"
+                        android:drawableLeft="@drawable/upload"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:drawablePadding="5dp"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -166,14 +181,6 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_height="100dp"
-        android:layout_width="100dp"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:src="@drawable/boy"
-        app:layout_anchor="@id/main.appbar"
-        app:layout_anchorGravity="bottom|right"
-        />
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>
