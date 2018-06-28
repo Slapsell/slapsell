@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "289782359660",
+    "firebase_url": "https://selloutapa.firebaseio.com",
+    "project_id": "selloutapa",
+    "storage_bucket": "selloutapa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289782359660:android:49c6af3b769c58f3",
+        "android_client_info": {
+          "package_name": "com.example.user.slapsell"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "289782359660-819fi7jmstsslarguusuj74s2g73qu69.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "289782359660-819fi7jmstsslarguusuj74s2g73qu69.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBe-tl9alid65_mVZ4U_pQG2WfdTXY55s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,9 +4,27 @@ public class Users {
     String name;
     String email;
     Address address;
-    Number mobile;
+    String mob;
     int uploads;
     String image;
+
+    public Users() {
+        name=null;
+        email=null;
+        address=new Address();
+        mob=null;
+        uploads=0;
+        image=null;
+    }
+
+    public Users(String name, String email, Address address, String mob, int uploads, String image) {
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.mob = mob;
+        this.uploads = uploads;
+        this.image = image;
+    }
 
     public String getName() {
         return name;
@@ -32,12 +50,12 @@ public class Users {
         this.address = address;
     }
 
-    public Number getMobile() {
-        return mobile;
+    public String getMob() {
+        return mob;
     }
 
-    public void setMobile(Number mobile) {
-        this.mobile = mobile;
+    public void setMob(String mob) {
+        this.mob = mob;
     }
 
     public int getUploads() {

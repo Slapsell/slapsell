@@ -4,9 +4,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,11 +32,31 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        RecyclerView recyclerView=view.findViewById(R.id.home_recycler);
-        GridLayoutManager layoutManager=new GridLayoutManager(getActivity(),2);
-        recyclerView.setLayoutManager(layoutManager);
+        Toolbar toolbar=(Toolbar)view.findViewById(R.id.main_toolbar);
+        toolbar.setTitle("Slapsell");
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        setHasOptionsMenu(true);
+        Fragment fragment=new recycler_items();
+        getFragmentManager()
+                .beginTransaction()
+                .add(R.id.frame_recyler, fragment)
+                .commit();
         return view;
     }
-
-
+    @Override
+    public void onCreateOptionsMenu(Menu menu,MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.seachable_menus, menu);
+        super.onCreateOptionsMenu(menu,menuInflater);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search_m:
+                //start search dialog
+                super.getActivity().onSearchRequested();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

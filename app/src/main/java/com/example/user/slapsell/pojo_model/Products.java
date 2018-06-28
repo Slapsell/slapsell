@@ -6,6 +6,26 @@ public class Products {
     String description;
     double price;
     String owner;
+    String date;
+    public Products(){
+
+    }
+    public Products(String name, String type, String description, double price, String owner, String date) {
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.price = price;
+        this.owner = owner;
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getName() {
         return name;

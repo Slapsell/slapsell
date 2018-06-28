@@ -6,6 +6,17 @@ public class Address {
     String city;
     String state;
     String pincode;
+    public Address(String street, String city, String state, String pincode) {
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.pincode = pincode;
+    }
+
+    public Address() {
+
+    }
+
 
     public String getStreet() {
         return street;
