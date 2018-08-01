@@ -9,7 +9,6 @@ public class Stores {
     private static List<Products> stores ;
     static {
         stores =  new ArrayList<Products>();
-
     }
 
     public static List<Products> getStores(){

@@ -18,8 +18,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.example.user.slapsell.pojo_model.Users;
 import com.google.android.gms.common.util.CrashUtils;
@@ -42,6 +44,7 @@ public class SignUp extends AppCompatActivity{
     private EditText mPasswordView;
     String pw, memail;
     FirebaseAuth auth;
+    ProgressBar progressBar;
     FirebaseAuth.AuthStateListener mAuthListener;
     Button sign_up,back;
     FirebaseUser user;
@@ -91,15 +94,18 @@ public class SignUp extends AppCompatActivity{
         sign_up=(Button)findViewById(R.id.email_sign_up_button);
         auth=FirebaseAuth.getInstance();
         back=(Button)findViewById(R.id.Backtologin);
+        progressBar=findViewById(R.id.singup_progress);
+        progressBar.setVisibility(View.GONE);
     }
     void signUp_all()
     {
         sign_up.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
             memail = mEmailView.getText().toString();
             pw = mPasswordView.getText().toString();
-            Log.d("prashu", pw);
+            progressBar.setVisibility(View.VISIBLE);
             boolean cancel = false;
             View focusView = null;
             if (!TextUtils.isEmpty(pw) && pw.length()<6) {
@@ -133,21 +139,22 @@ public class SignUp extends AppCompatActivity{
                             addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Log.d("prashu", "DocumentSnapshot successfully written!");
                                 }
                             })
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Log.w("prashu", "Error writing document", e);
+
                                         }
                                     });
+                            progressBar.setVisibility(View.GONE);
                             startActivity(new Intent(SignUp.this,LoginActivity.class));
                         finish();
                         }
                         else{
-                            Toast.makeText(SignUp.this, "Something went wrong",
+                            Toast.makeText(SignUp.this, "Something went wrong!! Check Email",
                                     Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
                         mPasswordView.setText("");}
                     }
                 });

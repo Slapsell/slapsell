@@ -14,7 +14,10 @@ public class Address {
     }
 
     public Address() {
-
+        street="";
+        city="";
+        state="";
+        pincode="";
     }
 
 

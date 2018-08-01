@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/level2"
+    android:background="@color/level1"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     >
@@ -14,188 +14,218 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 app:title="Profile"
-                android:background="@color/colorPrimaryDark"
+                app:titleTextColor="@color/white"
+                android:background="@color/colorPrimary"
                 android:elevation="15dp"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-            <android.support.design.widget.FloatingActionButton
-                android:layout_height="100dp"
-                android:layout_width="100dp"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                android:src="@drawable/boy"
-                android:elevation="10dp"
-                android:layout_gravity="center"
-                />
-                <ProgressBar
+
+                <android.support.v7.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"/>
-            </RelativeLayout>
-       <android.support.v7.widget.CardView
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginLeft="20dp"
-           android:layout_marginRight="20dp"
-           app:cardCornerRadius="3dp">
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:orientation="vertical"
-               android:background="@color/white">
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="30dp"
-                   android:layout_below="@+id/image_edit"
-                   android:background="#f0f0ff"
-                   android:gravity="center_vertical"
-                   android:text="  PERSONAL INFORMATION"
-                   android:textStyle="bold"/>
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text="Name"
-               android:textSize="20dp"
-               android:layout_margin="10dp"
-               android:drawableLeft="@drawable/avatar"
-               android:inputType="text"
-               android:id="@+id/profile_name"
-               android:maxLines="1"
-               android:drawablePadding="5dp"
-               android:drawableRight="@drawable/edit"/>
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text="Phone"
-               android:id="@+id/profile_phone"
-               android:textSize="20dp"
-               android:layout_margin="10dp"
-               android:drawableLeft="@drawable/icon"
-               android:inputType="text"
-               android:maxLines="1"
-               android:drawablePadding="5dp"
-               android:drawableRight="@drawable/edit"/>
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:text="address"
-                   android:textSize="20dp"
-                   android:layout_margin="10dp"
-                   android:drawableLeft="@drawable/address"
-                   android:inputType="text"
-                   android:maxLines="3"
-                   android:id="@+id/Profile_address"
-                   android:drawableRight="@drawable/edit"
-                   android:drawablePadding="10dp"/>
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:text="Prashu1996gupta@gmail.com"
-                   android:textSize="20dp"
-                   android:layout_margin="10dp"
-                   android:drawableLeft="@drawable/contact"
-                   android:inputType="text"
-                   android:maxLines="1"
-                   android:id="@+id/profile_email"
-                   android:drawablePadding="5dp"/>
-           </LinearLayout>
-       </android.support.v7.widget.CardView>
+                    android:layout_marginTop="20dp"
+                    app:cardCornerRadius="60dp"
+                    android:background="@null"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:id="@+id/floatingActionButton"
+                    />
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/profile_progress"
+                        android:layout_centerInParent="true"
+                        />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 app:cardCornerRadius="3dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_below="@+id/image_edit"
                         android:background="#f0f0ff"
-                        android:textStyle="bold"
                         android:gravity="center_vertical"
-                        android:text="  Posts" />
+                        android:text="  PERSONAL INFORMATION"
+                        android:textStyle="bold" />
+
                     <TextView
+                        android:id="@+id/profile_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text=" Upload:5"
-                        android:textSize="20dp"
                         android:layout_margin="10dp"
-                        android:drawableLeft="@drawable/upload"
+                        android:drawableLeft="@drawable/avatar"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@drawable/edit"
                         android:inputType="text"
                         android:maxLines="1"
-                        android:drawablePadding="5dp"/>
+                        android:hint="Name"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/profile_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:drawableLeft="@drawable/icon"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@drawable/edit"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:hint="Mobile"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/Profile_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:drawableLeft="@drawable/address"
+                        android:drawablePadding="10dp"
+                        android:drawableRight="@drawable/edit"
+                        android:inputType="text"
+                        android:maxLines="3"
+                        android:hint="Address"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/profile_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:drawableLeft="@drawable/contact"
+                        android:drawablePadding="5dp"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="Prashu1996gupta@gmail.com"
+                        android:textSize="20dp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                app:cardCornerRadius="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/image_edit"
+                        android:background="#f0f0ff"
+                        android:gravity="center_vertical"
+                        android:text="  Posts"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/profile_uploads"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:drawableLeft="@drawable/upload"
+                        android:drawablePadding="5dp"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text=" Uploads:0"
+                        android:textSize="20dp" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            app:cardCornerRadius="3dp">
-            <LinearLayout
+
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@color/white">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_below="@+id/image_edit"
-                android:background="#f0f0ff"
-                android:textStyle="bold"
-                android:gravity="center_vertical"
-                android:text="  Extra" />
-                <TextView
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                app:cardCornerRadius="3dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Help"
-                    android:textSize="20dp"
-                    android:layout_margin="10dp"
-                    android:drawableLeft="@drawable/support"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:drawablePadding="5dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="About"
-                    android:textSize="20dp"
-                    android:layout_margin="10dp"
-                    android:drawableLeft="@drawable/info"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:drawablePadding="5dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Log out"
-                    android:textSize="20dp"
-                    android:id="@+id/logout"
-                    android:layout_margin="10dp"
-                    android:drawableLeft="@drawable/logout"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:drawablePadding="5dp"/>
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/image_edit"
+                        android:background="#f0f0ff"
+                        android:gravity="center_vertical"
+                        android:text="  Extra"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:drawableLeft="@drawable/support"
+                        android:drawablePadding="5dp"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="Help"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:drawableLeft="@drawable/info"
+                        android:drawablePadding="5dp"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:id="@+id/profile_about"
+                        android:text="About"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/logout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:drawableLeft="@drawable/logout"
+                        android:drawablePadding="5dp"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="Log out"
+                        android:textSize="20dp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>
 

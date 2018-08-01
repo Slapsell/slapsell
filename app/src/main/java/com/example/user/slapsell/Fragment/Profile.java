@@ -5,18 +5,30 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -24,13 +36,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.user.slapsell.LoginActivity;
 import android.Manifest;
+import android.widget.Toast;
+
 import com.example.user.slapsell.R;
+import com.example.user.slapsell.about;
 import com.example.user.slapsell.pojo_model.Address;
 import com.example.user.slapsell.pojo_model.Users;
+import com.example.user.slapsell.posts;
+import com.example.user.slapsell.product_desc;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -46,8 +68,16 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import org.w3c.dom.Text;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -58,27 +88,48 @@ import static android.content.Context.LOCATION_SERVICE;
 public class Profile extends Fragment implements LocationListener {
     FirebaseAuth auth;
     FirebaseUser user;
-    TextView address,name,phone,email;
+    TextView address,name,phone,email,eupload;
     Address add;
     EditText estreet,ecity,estate,epincode;
     String id,tname,street,city,state,pincode;
-    String tphone,posts;
+    String tphone,posts,TAG;
     private Location mLocation;
     private LocationManager mLocationManager;
+    ProgressBar progressBar;
     Dialog dialog1;
+    ImageView imageView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        TAG="prashu";
         View view=inflater.inflate(R.layout.fragment_profile, container, false);
-        auth=FirebaseAuth.getInstance();
-        user=auth.getCurrentUser();
-        id=FirebaseAuth.getInstance().getUid();
-        email =(TextView)view.findViewById(R.id.profile_email);
-        name =(TextView)view.findViewById(R.id.profile_name);
-        phone =(TextView)view.findViewById(R.id.profile_phone);
-        address =(TextView)view.findViewById(R.id.Profile_address);
+        auth=FirebaseAuth.getInstance();//get authentication
+        user=auth.getCurrentUser();  // get instance of current user
+        id=FirebaseAuth.getInstance().getUid(); //get auth_if of current user
+        email =view.findViewById(R.id.profile_email);// get objects of textField
+        name =view.findViewById(R.id.profile_name);
+        phone =view.findViewById(R.id.profile_phone);
+        address =view.findViewById(R.id.Profile_address);
+        eupload=view.findViewById(R.id.profile_uploads);
+        imageView=view.findViewById(R.id.floatingActionButton);
+        progressBar=view.findViewById(R.id.profile_progress);
+        eupload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), com.example.user.slapsell.posts.class));
+            }
+        });// show your post
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final DocumentReference documentReference=db.document("users/"+id);
+        final DocumentReference documentReference=db.document("users/"+id); //get instance of users details of firestore
+        documentReference.update("fcm_regid",getActivity().getPreferences(0).getString("regis_id",""));
+        db.collection("users/"+id+"/uploads").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                eupload.setText("Uploads:"+String.valueOf(task.getResult().size()));
+            }
+
+        });
+        insertimage();
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
                      public void onEvent(@Nullable DocumentSnapshot snapshot,
@@ -150,15 +201,21 @@ public class Profile extends Fragment implements LocationListener {
                         TextView t=(TextView)dialog.findViewById(R.id.title);
                         t.setText("Set Mobile");
                         name.setText(tphone.toString());
+                        name.setFilters(new InputFilter[] { new InputFilter.LengthFilter(10) });
+                        name.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL|InputType.TYPE_CLASS_NUMBER );
                         Button btn=dialog.findViewById(R.id.custom_name);
                         btn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                db.collection("users").document(id).update("mobile",returnText(name)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                if(name.getText().length()<10)
+                                {
+                                    name.setError("number incorrect");
+                                    return;
+                                }
+                                db.collection("users").document(id).update("mob",returnText(name)).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-
-                                    }
+                                        }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
@@ -178,7 +235,6 @@ public class Profile extends Fragment implements LocationListener {
 
         });
 
-
         address.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
@@ -191,7 +247,8 @@ public class Profile extends Fragment implements LocationListener {
                         OK.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                add=new Address(returnText(estreet),returnText(ecity),returnText(estate),returnText(epincode));
+                                String city=returnText(ecity);
+                                add=new Address(returnText(estreet),city.substring(0,1).toUpperCase()+city.substring(1).toLowerCase(),returnText(estate),returnText(epincode));
                                 Map<String,Object> map=new HashMap<>();
                                 map.put("address.pincode",add.getPincode());
                                 map.put("address.city",add.getCity());
@@ -216,12 +273,12 @@ public class Profile extends Fragment implements LocationListener {
                         pick.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Log.d("prashu", "onClick: ");
-                                if(checkLocationPermission())
-                                {Log.d("prashu", "per ");
+                                if(checkLocationPermission()){
                                     mLocation=getLastKnownLocation();
                                     if(mLocation!=null)
                                     onLocationChanged(mLocation);
+                                    else
+                                        Toast.makeText(getActivity(),"Pick Location Failed Try after some time",Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -232,16 +289,31 @@ public class Profile extends Fragment implements LocationListener {
                 return false;
             }
         });
-        TextView textView=(TextView)view.findViewById(R.id.logout);
+        TextView textView=view.findViewById(R.id.logout);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 auth.signOut();
                 startActivity(new Intent(getActivity(),LoginActivity.class));
+                SharedPreferences.Editor editor=getActivity().getPreferences(0).edit().clear();
+                editor.commit();
                 getActivity().finish();
             }
         });
-
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, 12);
+            }
+        });
+        view.findViewById(R.id.profile_about).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(),about.class));
+            }
+        });
         return  view;
     }
     String returnText(TextView textView)
@@ -276,10 +348,7 @@ public class Profile extends Fragment implements LocationListener {
                         })
                         .create()
                         .show();
-
-
-            } else {
-                // No explanation needed, we can request the permission.
+                } else {
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_LOCATION);
@@ -311,12 +380,61 @@ public class Profile extends Fragment implements LocationListener {
             // permissions this app might request.
         }
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 0) {
+            return;
+        }
+        if (requestCode == 12) {
+            progressBar.setVisibility(View.VISIBLE);
+            int per;
+            ImageView imageView=getView().findViewById(R.id.floatingActionButton);
+            if (data != null) {
+                Uri file = data.getData();
+                Cursor returnCursor =
+                        getActivity().getContentResolver().query(file, null, null, null, null);
+                int si = returnCursor.getColumnIndex(OpenableColumns.SIZE);
+                returnCursor.moveToFirst();
+                si = (int) (returnCursor.getLong(si) / 1024);
+                if (si > 3000) per = 20;
+                else if (si > 1000) per = 40;
+                else if (si > 500) per = 60;
+                else per = 70;
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), file);
+                    byte[] bytes = new byte[0];
+                    ByteArrayOutputStream byte_im=new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG,per,byte_im);
+                    bytes=byte_im.toByteArray();
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    StorageReference storageRef = storage.getReference();
+                    final StorageReference Ref = storageRef.child("user/"+id+"/profile.jpg");
+                    Ref.putBytes(bytes).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle unsuccessful uploads
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                            // ...
+                            insertimage();
+                        }
+                    });
+                }
+                catch (Exception e){}
+            }
+        }
+    }
 
 
     @Override
     public void onLocationChanged(Location location) {
         double lat = location.getLatitude();
         double lng = location.getLongitude();
+        Log.d(TAG, "onLocationChanged: ");
         Geocoder geoCoder = new Geocoder(getActivity(), Locale.getDefault());
         try {
             List<android.location.Address> address = geoCoder.getFromLocation(lat, lng, 1);
@@ -354,15 +472,17 @@ public class Profile extends Fragment implements LocationListener {
     private Location getLastKnownLocation() {
         mLocationManager = (LocationManager)getActivity().getSystemService(LOCATION_SERVICE);
         List<String> providers = mLocationManager.getProviders(true);
+        Log.d(TAG, String.valueOf(providers.size()));
         Location bestLocation = null;
           if(checkLocationPermission()) {
               for (String provider : providers) {
+                  Log.d(TAG, provider);
                   Location l = mLocationManager.getLastKnownLocation(provider);
                   if (l == null) {
+                      Log.d(TAG, "getLastKnownLocation: ");
                       continue;
                   }
                   if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
-                      // Found best last known location: %s", l);
                       bestLocation = l;
                   }
               }
@@ -385,4 +505,24 @@ public class Profile extends Fragment implements LocationListener {
         estreet.setText(street);
 
     }
+    public  void insertimage()
+    {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("user/"+id+"/profile.jpg");
+        final long ONE_MEGABYTE = 1024 * 1024;
+        storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                progressBar.setVisibility(View.GONE);
+                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imageView.setImageBitmap(Bitmap.createScaledBitmap(bmp, 120,
+                        120, false));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+    }
+
 }

@@ -5,25 +5,21 @@ public class Users {
     String email;
     Address address;
     String mob;
-    int uploads;
-    String image;
+    String fcm_regid;
 
     public Users() {
-        name=null;
-        email=null;
+        name="";
+        email="";
         address=new Address();
-        mob=null;
-        uploads=0;
-        image=null;
+        mob="";
+        fcm_regid="";
     }
 
-    public Users(String name, String email, Address address, String mob, int uploads, String image) {
+    public Users(String name, String email, Address address, String mob) {
         this.name = name;
         this.email = email;
         this.address = address;
         this.mob = mob;
-        this.uploads = uploads;
-        this.image = image;
     }
 
     public String getName() {
@@ -58,19 +54,4 @@ public class Users {
         this.mob = mob;
     }
 
-    public int getUploads() {
-        return uploads;
-    }
-
-    public void setUploads(int uploads) {
-        this.uploads = uploads;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 }

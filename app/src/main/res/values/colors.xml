@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#276087</color>
-    <color name="colorPrimaryDark">#90DCE8</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#CE9ED1</color>
     <color name="green_toolbar">#a4c639</color>
     <color name="white">#FFFFFF</color>
-    <color name="level1">#90DCE8</color>
+    <color name="level1">#EEF9FA</color>
     <color name="level2">#5C98B7</color>
     <color name="level3">#5A72B2</color>
     <color name="level4">#4B2D96</color>
+    <color name="black_overlay">#66000000</color>
 </resources>

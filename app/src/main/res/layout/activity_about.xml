@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".about"
+    android:background="@color/level4">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:text="Version 1.0.0"
+        android:textSize="18dp"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/appicon" />
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="ABOUT APPLICATION"
+    android:layout_marginLeft="20dp"
+    android:textColor="@color/level2"
+    android:textSize="20dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:padding="30dp"
+        android:text="This application can help the user for purchase and sell his/her Old/New Products at the best price. You can search items according to your city and domain. You can extract seller information by click on view profile button through the specific Product Description page. You must remove the product by long press on the item from your post after the product had being sold." />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ABOUT DEVELOPER"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/level2"
+            android:textSize="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:padding="30dp"
+            android:text="IET LUCKNOW
+               1.PRASHU GUPTA (CSE)
+               2.ABHISHEK SINGH (IT)
+               3.ANKITA GUPTA (CSE)" />
+
+    </LinearLayout>
+</ScrollView>
